@@ -46,6 +46,21 @@ plot(cathy0999)
 title("Alpha = 0.999")
 
 % Question 6
-% freqz((1-alpha), [1  -alpha],1024,44100)
-% plot magnitude and phase for alpha = 0.9, 0.99 to determine cutoff
+[h1, f1] = freqz((1 - 0.9), [1 -0.9], 1024, 44100);
+[h2, f2] = freqz((1 - 0.99), [1 -0.99], 1024, 44100);
+figure(3)
+subplot(2,2,1)
+plot(f1,10*log10(abs(h1)))
+xlabel("Frequency (log10)")
+ylabel("Magnitude dB")
+title("Magnitude spectrum for alpha=0.9")
+subplot(2,2,2)
+title("Phase Spectrum for alpha=0.9")
+subplot(2,2,3)
+plot(f2,10*log10(abs(h2)))
+xlabel("Frequency (log10)")
+ylabel("Magnitude dB")
+title("Magnitude spectrum for alpha=0.99")
+subplot(2,2,4)
+title("Phase Spectrum for alpha=0.99")
 
