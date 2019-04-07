@@ -23,7 +23,6 @@ plot(noiseMLFilter - noiseMyFilter)
 title("Difference between the filters")
 
 % Question 4
-% missing audio file
 [a, fs] = audioread("cathy_2.wav");
 cathy05 = mySinglePole(a, 0.5);
 cathy09 = mySinglePole(a, 0.9);
@@ -38,12 +37,15 @@ title("Alpha = 0.5")
 subplot(4,1,2)
 plot(cathy09)
 title("Alpha = 0.9")
+ylim([-1 1])
 subplot(4,1,3)
 plot(cathy099)
 title("Alpha = 0.99")
+ylim([-1 1])
 subplot(4,1,4)
 plot(cathy0999)
 title("Alpha = 0.999")
+ylim([-1 1])
 
 % Question 6
 [h1, f1] = freqz((1 - 0.9), [1 -0.9], 1024, 44100);
@@ -55,12 +57,25 @@ xlabel("Frequency (log10)")
 ylabel("Magnitude dB")
 title("Magnitude spectrum for alpha=0.9")
 subplot(2,2,2)
+plot(f1,unwrap(angle(h1))*180/pi)
 title("Phase Spectrum for alpha=0.9")
+xlim([0 22000])
 subplot(2,2,3)
 plot(f2,10*log10(abs(h2)))
 xlabel("Frequency (log10)")
 ylabel("Magnitude dB")
 title("Magnitude spectrum for alpha=0.99")
 subplot(2,2,4)
+plot(f2,unwrap(angle(h2))*180/pi)
 title("Phase Spectrum for alpha=0.99")
 
+[h4, f4] = freqz((1 - 0.05), [1 -0.05], 1024, 44100);
+figure(4)
+subplot(2,1,1)
+plot(f4,10*log10(abs(h4)))
+xlabel("Frequency (log10)")
+ylabel("Magnitude dB")
+title("Magnitude spectrum for alpha=0.05")
+subplot(2,1,2)
+plot(f4,unwrap(angle(h4))*180/pi)
+title("Phase Spectrum for alpha=0.05")
