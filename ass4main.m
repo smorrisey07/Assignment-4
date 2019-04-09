@@ -82,14 +82,36 @@ subplot(2,1,2)
 plot(f4,unwrap(angle(h4))*180/pi)
 title("Phase Spectrum for alpha=0.05")
 
-
-disp('question 7');
 %% Question 7
-% outputvector = myPeak(n, 3000, 4, 12, 44100);
-% figure(5)
-% plot(outputvector)
+%Initialize plot
+figure(5)
+subplot(2,3,1)
+spectrogram(n,256,250,[],fs,'yaxis');
+title('Original noise')
+subplot(2,3,4)
+spectrogram(a,256,250,[],fs,'yaxis');
+title('Original audio')
+
+% Run calculations
+% z = myPeak(n, 3000, 4, 12, 44100);
+% c = myPeak(a, 3000, 4, 12, 44100);
+
+% Plot and check output from myPeak
+% subplot(2,3,2)
+% spectrogram(z,256,250,[],fs,'yaxis');
+% title('Filtered noise with filter()')
+% subplot(2,3,4)
+% spectrogram(c,256,250,[],fs,'yaxis');
+% title('Filtered audio with filter()')
 
 %% Question 8
-% y = myPeakFilter(n, 3000, 4, 12, 44100);
-% figure(5)
-% plot(y)
+y = myPeakFilter(n, 3000, 4, 12, 44100);
+b = myPeakFilter(a, 3000, 4, 12, 44100);
+
+% Plots
+subplot(2,3,3)
+spectrogram(y,256,250,[],fs,'yaxis');
+title('Filtered noise without filter()')
+subplot(2,3,6)
+spectrogram(b,256,250,[],fs,'yaxis');
+title('Filtered audio without filter()')
