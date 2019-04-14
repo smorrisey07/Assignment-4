@@ -17,12 +17,18 @@ figure(1)
 subplot(3, 1, 1)
 plot(noiseMyFilter)
 title("Filtered with mySinglePole")
+xlabel('Time')
+ylabel('Amplitude')
 subplot(3, 1, 2)
 plot(noiseMLFilter)
 title("Filtered with Matlab Filter")
+xlabel('Time')
+ylabel('Amplitude')
 subplot(3,1,3)
 plot(noiseMLFilter - noiseMyFilter)
 title("Difference between the filters")
+xlabel('Time')
+ylabel('Difference between signals')
 
 %% Question 4
 [a, fs] = audioread("cathy_2.wav");
@@ -36,17 +42,25 @@ figure(2)
 subplot(4,1,1)
 plot(cathy05)
 title("Alpha = 0.5")
+xlabel('Time')
+ylabel('Amplitude')
 subplot(4,1,2)
 plot(cathy09)
 title("Alpha = 0.9")
+xlabel('Time')
+ylabel('Amplitude')
 ylim([-1 1])
 subplot(4,1,3)
 plot(cathy099)
 title("Alpha = 0.99")
+xlabel('Time')
+ylabel('Amplitude')
 ylim([-1 1])
 subplot(4,1,4)
 plot(cathy0999)
 title("Alpha = 0.999")
+xlabel('Time')
+ylabel('Amplitude')
 ylim([-1 1])
 
 %% Question 6
@@ -61,6 +75,8 @@ title("Magnitude spectrum for alpha=0.9")
 subplot(2,2,2)
 plot(f1,unwrap(angle(h1))*180/pi)
 title("Phase Spectrum for alpha=0.9")
+xlabel('Frequency')
+ylabel('Phase')
 xlim([0 22000])
 subplot(2,2,3)
 plot(f2,10*log10(abs(h2)))
@@ -70,6 +86,8 @@ title("Magnitude spectrum for alpha=0.99")
 subplot(2,2,4)
 plot(f2,unwrap(angle(h2))*180/pi)
 title("Phase Spectrum for alpha=0.99")
+xlabel('Frequency')
+ylabel('Phase')
 
 %% Question 7
 %Initialize plot
@@ -104,13 +122,3 @@ title('Filtered noise without filter()')
 subplot(2,3,6)
 spectrogram(b,256,250,[],fs,'yaxis');
 title('Filtered audio without filter()')
-
-%% myPeakFilter
-function outputvector = myPeakFilter(inputvector, freqvalue, qvalue, gain, samplerateinHz)
-[a0, a1, a2, b0, b1, b2] = genVar(freqvalue, qvalue, gain, samplerateinHz);
-outputvector = zeros(length(inputvector), 1);
-
-for i = 3:length(outputvector)
-    outputvector(i) = (b0/a0) * inputvector(i) + (b1 / a0) * inputvector(i-1) + (b2 / a0) * inputvector(i-2) - (a1 / a0) * outputvector(i-1) - (a2 / a0) * outputvector(i-2);
-end  
-end
