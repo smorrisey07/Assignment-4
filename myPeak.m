@@ -1,18 +1,7 @@
 function outputvector = myPeak(inputvector, freqvalue, qvalue, gain, samplerateinHz)
-A = 10*(gain/40);
-alpha = sin(freqvalue)/(2*qvalue);
-omega = 2 * pi * freqvalue / samplerateinHz;
-z = A * (cos(omega) + j * sin(omega));
 
-% Define coefficients
-coefa0 = 1;
-coefa1 = -2*cos(omega);
-coefa2 = 1 - alpha/A;
-coefb0 = 1 + alpha * A;
-coefb1 = -2 * cos(omega);
-coefb2 = 1 - alpha * A;
+[a0, a1, a2, b0, b1, b2] = genVar(freqvalue, qvalue, gain, samplerateinHz);
 
-disp('done coefficients')
-outputvector = filter(num, [1 -den], inputvector);
-disp('done filter')
+outputvector = filter([b0, b1,b2], [a0, a1, a2], inputvector);
+
 end
