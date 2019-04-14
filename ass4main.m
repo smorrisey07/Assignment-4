@@ -71,20 +71,9 @@ subplot(2,2,4)
 plot(f2,unwrap(angle(h2))*180/pi)
 title("Phase Spectrum for alpha=0.99")
 
-[h4, f4] = freqz((1 - 0.05), [1 -0.05], 1024, 44100);
-figure(4)
-subplot(2,1,1)
-plot(f4,10*log10(abs(h4)))
-xlabel("Frequency (log10)")
-ylabel("Magnitude dB")
-title("Magnitude spectrum for alpha=0.05")
-subplot(2,1,2)
-plot(f4,unwrap(angle(h4))*180/pi)
-title("Phase Spectrum for alpha=0.05")
-
 %% Question 7
 %Initialize plot
-figure(5)
+figure(4)
 subplot(2,3,1)
 spectrogram(n,256,250,[],fs,'yaxis');
 title('Original noise')
@@ -93,16 +82,16 @@ spectrogram(a,256,250,[],fs,'yaxis');
 title('Original audio')
 
 % Run calculations
-% z = myPeak(n, 3000, 4, 12, 44100);
-% c = myPeak(a, 3000, 4, 12, 44100);
+z = myPeak(n, 3000, 4, 12, 44100);
+c = myPeak(a, 3000, 4, 12, 44100);
 
 % Plot and check output from myPeak
-% subplot(2,3,2)
-% spectrogram(z,256,250,[],fs,'yaxis');
-% title('Filtered noise with filter()')
-% subplot(2,3,4)
-% spectrogram(c,256,250,[],fs,'yaxis');
-% title('Filtered audio with filter()')
+subplot(2,3,2)
+spectrogram(z,256,250,[],fs,'yaxis');
+title('Filtered noise with filter()')
+subplot(2,3,5)
+spectrogram(c,256,250,[],fs,'yaxis');
+title('Filtered audio with filter()')
 
 %% Question 8
 y = myPeakFilter(n, 3000, 4, 12, 44100);
@@ -115,3 +104,13 @@ title('Filtered noise without filter()')
 subplot(2,3,6)
 spectrogram(b,256,250,[],fs,'yaxis');
 title('Filtered audio without filter()')
+
+%% myPeakFilter
+function outputvector = myPeakFilter(inputvector, freqvalue, qvalue, gain, samplerateinHz)
+[a0, a1, a2, b0, b1, b2] = genVar(freqvalue, qvalue, gain, samplerateinHz);
+outputvector = zeros(length(inputvector), 1);
+
+for i = 3:length(outputvector)
+    outputvector(i) = (b0/a0) * inputvector(i) + (b1 / a0) * inputvector(i-1) + (b2 / a0) * inputvector(i-2) - (a1 / a0) * outputvector(i-1) - (a2 / a0) * outputvector(i-2);
+end  
+end
